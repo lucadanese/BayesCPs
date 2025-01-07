@@ -85,7 +85,7 @@ detect_cp_univariate <- function(data, n_iterations, q, phi, a, b, c, par_theta_
 #' \item{\code{$theta_MCMC}} traceplot for \eqn{\theta}.
 #' }
 #'
-#'@examples
+#' @examples
 #'
 #' data_mat <- matrix(NA, nrow = 3, ncol = 100)
 #'
@@ -142,7 +142,25 @@ ClusteringCPsEPI <- function(data, niter, M, B, L, gamma = 1/8, alpha = 1, q = 0
 #' @param q probability of a split in the split-merge proposal and acceleration step.
 #' @param alpha_SM \eqn{\alpha} for the split-merge proposal and acceleration step.
 #' @param user_seed seed for random distribution generation.
-#' @return TO DO
+#' @return Function \code{cluster_cp_uni} returns a list containing the following components: \itemize{
+#' \item{\code{$clust}} a matrix where each row corresponds to the output cluster of the corresponding iteration.
+#' \item{\code{$orders}} a multidimensional array where each slice is a matrix and represent an iteration. The row of each matrix correspond the order associated to the corresponding cluster.
+#' \item{\code{$norm_vec}} a vector containing the normalisation constant computed at the beginning of the algorithm.
+#' }
+#'
+#' @examples
+#'
+#' data_mat <- matrix(NA, nrow = 5, ncol = 100)
+#'
+#' data_mat[1,] <- as.numeric(c(rnorm(50,0,0.100), rnorm(50,1,0.250)))
+#' data_mat[2,] <- as.numeric(c(rnorm(50,0,0.125), rnorm(50,1,0.225)))
+#' data_mat[3,] <- as.numeric(c(rnorm(50,0,0.175), rnorm(50,1,0.280)))
+#' data_mat[4,] <- as.numeric(c(rnorm(25,0,0.135), rnorm(75,1,0.225)))
+#' data_mat[5,] <- as.numeric(c(rnorm(25,0,0.155), rnorm(75,1,0.280)))
+#'
+#' out <- cluster_cp_uni(data = data_mat, n_iterations = 5000, B = 1000, L = 1, gamma = 0.5)
+#'
+#' get_order_VI(out$clust[2500:5000,])
 #'
 #' @export
 cluster_cp_uni <- function(data, n_iterations, B, L, gamma, a = 1, b = 1, c = 1, q = 0.5, alpha_SM = 0.1, user_seed = 1234L) {
